@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Monte Carlo Simulation</title>
+    <style>
+        label {
+            display: block;
+            margin-top: 10px;
+        }
+        small {
+            display: block;
+            margin-bottom: 5px;
+        }
+        input[type="number"] {
+            width: 100%;
+            padding: 8px;
+            margin: 5px 0;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Monte Carlo Option Pricing</h1>
+    <p>The Monte Carlo simulation is a technique used to model the probability of different outcomes in a process that cannot easily be predicted due to the intervention of random variables. It's often used in option pricing to simulate the future price paths of the underlying asset.</p>
+
+    <form method="post">
+        <label for="S">Stock Price (S):</label>
+        <input type="number" id="S" name="S" min="1" max="1000" step="1" value="100" required>
+        <small>Current price of the underlying stock or asset.</small><br>
+
+        <label for="K">Strike Price (K):</label>
+        <input type="number" id="K" name="K" min="1" max="1000" step="1" value="100" required>
+        <small>The price at which the option can be exercised.</small><br>
+
+        <label for="T">Time to Maturity (T):</label>
+        <input type="number" id="T" name="T" min="1" max="365" step="1" value="30" required>
+        <small>Time in days until the option's expiration date.</small><br>
+
+        <label for="r">Risk-Free Rate (r):</label>
+        <input type="number" id="r" name="r" min="0" max="10" step="0.01" value="2.00" required>
+        <small>Annual risk-free interest rate (e.g., the yield on government bonds).</small><br>
+
+        <label for="sigma">Volatility (σ):</label>
+        <input type="number" id="sigma" name="sigma" min="0" max="100" step="0.1" value="20.0" required>
+        <small>Annualized volatility of the underlying asset's returns.</small><br>
+
+        <label for="num_simulations">Number of Simulations:</label>
+        <input type="number" id="num_simulations" name="num_simulations" min="1000" max="100000" step="1000" value="10000" required>
+        <small>Number of simulated price paths.</small><br>
+
+        <label for="num_steps">Number of Steps:</label>
+        <input type="number" id="num_steps" name="num_steps" min="10" max="1000" step="10" value="100" required>
+        <small>Number of time steps in each simulation.</small><br>
+
+        <label for="option_type">Option Type:</label>
+        <select id="option_type" name="option_type">
+            <option value="call">Call</option>
+            <option value="put">Put</option>
+        </select>
+        <small>Call option gives the right to buy; put option gives the right to sell.</small><br>
+
+        <input type="submit" value="Calculate">
+    </form>
+</body>
+</html>

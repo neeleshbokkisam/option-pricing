@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request
 from models.BlackScholesModel import BlackScholesModel
+from models.MonteCarloPricing import MonteCarloPricing
 
 app = Flask(__name__)
 
@@ -26,11 +27,27 @@ def black_scholes():
 
     return render_template('black_scholes_form.html')
 
-
-# Routes for other models (Monte Carlo, Binomial Tree)
 @app.route('/monte_carlo', methods=['GET', 'POST'])
 def monte_carlo():
-    return "<h2>Monte Carlo Simulation - Coming Soon</h2>"
+    if request.method == 'POST':
+        # Get form data
+        S = float(request.form['S'])
+        K = float(request.form['K'])
+        T = float(request.form['T'])
+        r = float(request.form['r'])
+        sigma = float(request.form['sigma'])
+        num_simulations = int(request.form['num_simulations'])
+        option_type = request.form['option_type']
+        
+        # Calculate option price using Monte Carlo Simulation
+        model = MonteCarloPricing(S, K, T, r, sigma, num_simulations)
+        model.simulate_prices()
+        price = model._calculate_call_option_price() if option_type == 'call' else model._calculate_put_option_price()
+
+        return render_template('monte_carlo_result.html', price=price)
+
+    return render_template('monte_carlo_form.html')
+
 
 @app.route('/binomial_tree', methods=['GET', 'POST'])
 def binomial_tree():
