@@ -3,11 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Monte Carlo Simulation Result</title>
+    <title>Monte Carlo Option Pricing Result</title>
 </head>
 <body>
     <h1>Monte Carlo Option Pricing Result</h1>
-    <p>The calculated option price is: {{ price }}</p>
-    <a href="/">Go Back</a>
+    <p>The calculated option price is:</p>
+    <ul>
+        <li>Call Option Price: {{ call_option_price }}</li>
+        <li>Put Option Price: {{ put_option_price }}</li>
+    </ul>
+    <img src="{{ url_for('static', filename='monte_carlo_plot.png') }}" alt="Monte Carlo Simulation Plot">
+    <br>
+    <a href="{{ url_for('monte_carlo') }}">Go Back</a>
 </body>
 </html>

@@ -1,7 +1,10 @@
 # Third party imports
+import matplotlib
+matplotlib.use('agg')
 import numpy as np
 from scipy.stats import norm 
 import matplotlib.pyplot as plt
+
 
 # Local package imports
 from .base import OptionPricingModel
@@ -44,7 +47,7 @@ class MonteCarloPricing(OptionPricingModel):
         Saving random results.
         """
         np.random.seed(20)
-        self.simulation_results = None
+        
 
         # Initializing price movements for simulation: rows as time index and columns as different random price movements.
         S = np.zeros((self.num_of_steps, self.N))        
@@ -79,7 +82,7 @@ class MonteCarloPricing(OptionPricingModel):
         return np.exp(-self.r * self.T) * 1 / self.N * np.sum(np.maximum(self.K - self.simulation_results_S[-1], 0))
        
 
-    def plot_simulation_results(self, num_of_movements):
+    def plot_simulation_results(self, num_of_movements, save_path):
         """Plots specified number of simulated price movements."""
         plt.figure(figsize=(12,8))
         plt.plot(self.simulation_results_S[:,0:num_of_movements])
@@ -89,4 +92,5 @@ class MonteCarloPricing(OptionPricingModel):
         plt.xlabel('Days in future')
         plt.title(f'First {num_of_movements}/{self.N} Random Price Movements')
         plt.legend(loc='best')
-        plt.show()
+        plt.savefig(save_path)
+        plt.close()  # Close the figure after saving to avoid displaying it directly

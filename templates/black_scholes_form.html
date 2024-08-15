@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Black-Scholes Model</title>
+    <title>Black-Scholes Option Pricing</title>
     <style>
         label {
             display: block;
@@ -13,7 +13,10 @@
             display: block;
             margin-bottom: 5px;
         }
-        input[type="number"] {
+        input[type="text"],
+        input[type="number"],
+        input[type="date"],
+        select {
             width: 100%;
             padding: 8px;
             margin: 5px 0;
@@ -21,39 +24,43 @@
             border: 1px solid #ccc;
             border-radius: 4px;
         }
+        input[type="submit"] {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        input[type="submit"]:hover {
+            background-color: #45a049;
+        }
     </style>
 </head>
 <body>
     <h1>Black-Scholes Option Pricing</h1>
-    <p>The Black-Scholes model is a mathematical model for pricing an options contract. The model calculates the theoretical price of European put and call options, ignoring any dividends paid during the option's lifetime. It assumes the market is efficient, meaning it reflects all relevant information, and the risk-free rate and volatility of the underlying asset are constant.</p>
+    <p>The Black-Scholes model is used to calculate the theoretical price of European put and call options, ignoring dividends paid during the life of the option.</p>
 
-    <form method="post">
-        <label for="S">Stock Price (S):</label>
-        <input type="number" id="S" name="S" min="1" max="1000" step="0.01" value="100.00" required>
-        <small>Current price of the underlying stock or asset.</small><br>
+    <form method="post" action="/black_scholes">
+        <label for="ticker">Ticker Symbol:</label>
+        <input type="text" id="ticker" name="ticker" value="AAPL" required>
+        <small>Enter the stock ticker symbol (e.g., AAPL).</small>
 
-        <label for="K">Strike Price (K):</label>
-        <input type="number" id="K" name="K" min="1" max="1000" step="0.01" value="100.00" required>
-        <small>The price at which the option can be exercised.</small><br>
+        <label for="strike_price">Strike Price (K):</label>
+        <input type="number" id="strike_price" name="strike_price" min="1" max="1000" step="1" value="300" required>
+        <small>The price at which the option can be exercised.</small>
 
-        <label for="T">Time to Maturity (T):</label>
-        <input type="number" id="T" name="T" min="1" max="365" step="1" value="30" required>
-        <small>Time in days until the option's expiration date.</small><br>
-
-        <label for="r">Risk-Free Rate (r):</label>
-        <input type="number" id="r" name="r" min="0" max="10" step="0.01" value="2.00" required>
-        <small>Annual risk-free interest rate (e.g., the yield on government bonds).</small><br>
+        <label for="risk_free_rate">Risk-Free Rate (%):</label>
+        <input type="number" id="risk_free_rate" name="risk_free_rate" min="0" max="100" step="0.01" value="10" required>
+        <small>Annual risk-free interest rate (e.g., the yield on government bonds).</small>
 
         <label for="sigma">Volatility (σ):</label>
-        <input type="number" id="sigma" name="sigma" min="0" max="100" step="0.1" value="20.0" required>
-        <small>Annualized volatility of the underlying asset's returns.</small><br>
+        <input type="number" id="sigma" name="sigma" min="0" max="100" step="0.1" value="20" required>
+        <small>Annualized volatility of the underlying asset's returns.</small>
 
-        <label for="option_type">Option Type:</label>
-        <select id="option_type" name="option_type">
-            <option value="call">Call</option>
-            <option value="put">Put</option>
-        </select>
-        <small>Call option gives the right to buy; put option gives the right to sell.</small><br>
+        <label for="exercise_date">Exercise Date:</label>
+        <input type="date" id="exercise_date" name="exercise_date" value="{{ default_exercise_date }}" required>
+        <small>Date on which the option can be exercised.</small>
 
         <input type="submit" value="Calculate">
     </form>

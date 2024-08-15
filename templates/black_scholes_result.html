@@ -3,11 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Black-Scholes Result</title>
+    <title>Black-Scholes Option Pricing Result</title>
 </head>
 <body>
     <h1>Black-Scholes Option Pricing Result</h1>
-    <p>The calculated option price is: {{ price }}</p>
-    <a href="/">Go Back</a>
+    <p>The calculated option price is:</p>
+    <ul>
+        <li>Call Option Price: {{ call_option_price }}</li>
+        <li>Put Option Price: {{ put_option_price }}</li>
+    </ul>
+
+    <br>
+    <a href="{{ url_for('black_scholes') }}">Go Back</a>
 </body>
 </html>
