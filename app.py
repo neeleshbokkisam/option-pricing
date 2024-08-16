@@ -86,8 +86,8 @@ def monte_carlo():
     return render_template('monte_carlo_form.html')
 
 
-@app.route('/binomial', methods=['GET', 'POST'])
-def binomial():
+@app.route('/binomial_tree', methods=['GET', 'POST'])
+def binomial_tree():
     if request.method == 'POST':
         # Get form data
         ticker = request.form['ticker']
@@ -95,21 +95,35 @@ def binomial():
         risk_free_rate = float(request.form['risk_free_rate']) / 100
         sigma = float(request.form['sigma']) / 100
         exercise_date = datetime.strptime(request.form['exercise_date'], '%Y-%m-%d')
-        number_of_time_steps = int(request.form['num_time_steps'])
+        number_of_time_steps = int(request.form['number_of_time_steps'])
 
         # Get historical data for the ticker
         data = Ticker.get_historical_data(ticker)
         spot_price = Ticker.get_last_price(data, 'Adj Close')
-        days_to_maturity = (exercise_date - datetime.now().date()).days
+        days_to_maturity = (exercise_date.date() - datetime.now().date()).days
 
-        # Calculate option prices
+        # Check if data is valid
+        if spot_price is None:
+            return render_template('error.html', message=f"Failed to retrieve data for {ticker}. Please check the ticker symbol or try again later.")
+
+        # Calculate option prices using Binomial-Tree model
         BOPM = BinomialTreeModel(spot_price, strike_price, days_to_maturity, risk_free_rate, sigma, number_of_time_steps)
-        call_option_price = BOPM.calculate_option_price('call')
-        put_option_price = BOPM.calculate_option_price('put')
+        call_option_price = BOPM.calculate_option_price('Call Option')
+        put_option_price = BOPM.calculate_option_price('Put Option')
 
-        return render_template('result.html', call_option_price=call_option_price, put_option_price=put_option_price)
+        # Plot historical data
+        plot_file_path = 'static/binomial_tree_plot.png'
+        Ticker.plot_data(data, ticker, 'Adj Close', save_path=plot_file_path)
 
-    return render_template('binomial_form.html')
+        # Render result template with the calculated option prices and the plot
+        return render_template('binomial_tree_result.html', 
+                               call_option_price=call_option_price, 
+                               put_option_price=put_option_price, 
+                               plot_url=plot_file_path)
+
+    default_exercise_date = (datetime.now() + timedelta(days=365)).strftime('%Y-%m-%d')
+    return render_template('binomial_tree_form.html', default_exercise_date=default_exercise_date, datetime=datetime, timedelta=timedelta)
+
 
 if __name__ == '__main__':
     app.run(debug=True)

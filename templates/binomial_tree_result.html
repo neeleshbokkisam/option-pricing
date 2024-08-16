@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Binomial-Tree Option Pricing Result</title>
+</head>
+<body>
+    <h1>Binomial-Tree Option Pricing Result</h1>
+    <p>The calculated option price is:</p>
+    <ul>
+        <li>Call Option Price: {{ call_option_price }}</li>
+        <li>Put Option Price: {{ put_option_price }}</li>
+    </ul>
+    <img src="{{ url_for('static', filename='binomial_tree_plot.png') }}" alt="Historical Data Plot">
+    <br>
+    <a href="{{ url_for('binomial_tree') }}">Go Back</a>
+</body>
+</html>

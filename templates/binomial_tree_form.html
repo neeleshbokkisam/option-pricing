@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Binomial-Tree Option Pricing</title>
+    <style>
+        label {
+            display: block;
+            margin-top: 10px;
+        }
+        small {
+            display: block;
+            margin-bottom: 5px;
+        }
+        input[type="text"],
+        input[type="number"],
+        input[type="date"],
+        select {
+            width: 100%;
+            padding: 8px;
+            margin: 5px 0;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        input[type="submit"] {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        input[type="submit"]:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <h1>Binomial-Tree Option Pricing</h1>
+    <p>The Binomial-Tree model is used to calculate the theoretical price of European put and call options.</p>
+
+    <form method="post" action="/binomial_tree">
+        <label for="ticker">Ticker Symbol:</label>
+        <input type="text" id="ticker" name="ticker" value="AAPL" required>
+        <small>Enter the stock ticker symbol (e.g., AAPL).</small>
+
+        <label for="strike_price">Strike Price (K):</label>
+        <input type="number" id="strike_price" name="strike_price" min="1" max="1000" step="1" value="300" required>
+        <small>The price at which the option can be exercised.</small>
+
+        <label for="risk_free_rate">Risk-Free Rate (%):</label>
+        <input type="number" id="risk_free_rate" name="risk_free_rate" min="0" max="100" step="0.01" value="10" required>
+        <small>Annual risk-free interest rate (e.g., the yield on government bonds).</small>
+
+        <label for="sigma">Volatility (σ):</label>
+        <input type="number" id="sigma" name="sigma" min="0" max="100" step="0.1" value="20" required>
+        <small>Annualized volatility of the underlying asset's returns.</small>
+
+        <label for="exercise_date">Exercise Date:</label>
+        <input type="date" id="exercise_date" name="exercise_date" value="{{ default_exercise_date }}" required>
+        <small>Date on which the option can be exercised.</small>
+
+        <label for="number_of_time_steps">Number of Time Steps:</label>
+        <input type="number" id="number_of_time_steps" name="number_of_time_steps" min="5000" max="100000" step="100" value="15000" required>
+        <small>Number of time steps in the binomial tree.</small><br>
+
+        <input type="submit" value="Calculate">
+    </form>
+</body>
+</html>
