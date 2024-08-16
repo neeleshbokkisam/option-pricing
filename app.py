@@ -36,9 +36,9 @@ def black_scholes():
         call_option_price = BSM._calculate_call_option_price()
         put_option_price = BSM._calculate_put_option_price()
 
-        # Displaying call/put option price and plot
-        Ticker.plot_data(data, ticker, 'Adj Close')  # Save the plot image to be rendered on the result page
-        plot_file_path = 'static/plot.png'  # Assuming the plot is saved here
+        # Plotting historical data
+        plot_file_path = 'static/historical_data_plot.png'
+        Ticker.plot_data(data, ticker, 'Adj Close', save_path=plot_file_path)
 
         return render_template('black_scholes_result.html', 
                                call_option_price=call_option_price, 
@@ -47,7 +47,6 @@ def black_scholes():
 
     default_exercise_date = (datetime.now() + timedelta(days=365)).strftime('%Y-%m-%d')
     return render_template('black_scholes_form.html', default_exercise_date=default_exercise_date, datetime=datetime, timedelta=timedelta)
-
 
 
 @app.route('/monte_carlo', methods=['GET', 'POST'])
@@ -62,24 +61,10 @@ def monte_carlo():
         number_of_simulations = int(request.form['num_simulations'])
         num_of_movements = int(request.form['num_of_movements'])
 
-        # Debugging statements to check form inputs
-        print(f"ticker: {ticker}")
-        print(f"strike_price: {strike_price}")
-        print(f"risk_free_rate: {risk_free_rate}")
-        print(f"sigma: {sigma}")
-        print(f"exercise_date: {exercise_date}")
-        print(f"number_of_simulations: {number_of_simulations}")
-        print(f"num_of_movements: {num_of_movements}")
-
         # Get historical data for the ticker
         data = Ticker.get_historical_data(ticker)
-        print(f"Historical data for {ticker}: {data}")
         spot_price = Ticker.get_last_price(data, 'Adj Close')
         days_to_maturity = (exercise_date.date() - datetime.now().date()).days
-
-        # Debugging statements to check processed values
-        print(f"spot_price: {spot_price}")
-        print(f"days_to_maturity: {days_to_maturity}")
 
         # Simulate and calculate option prices
         MC = MonteCarloPricing(spot_price, strike_price, days_to_maturity, risk_free_rate, sigma, number_of_simulations)
@@ -87,19 +72,18 @@ def monte_carlo():
         call_option_price = MC._calculate_call_option_price()
         put_option_price = MC._calculate_put_option_price()
 
-        # Debugging statements to check calculated prices
-        print(f"call_option_price: {call_option_price}")
-        print(f"put_option_price: {put_option_price}")
+        # Save plots to static folder
+        simulation_plot_file_path = os.path.join('static', 'monte_carlo_simulation_plot.png')
+        historical_plot_file_path = os.path.join('static', 'monte_carlo_historical_plot.png')
+        MC.plot_simulation_results(num_of_movements, simulation_plot_file_path, historical_plot_file_path, historical_data=data, ticker=ticker)
 
-        # Save plot to static folder
-        plot_file_path = os.path.join('static', 'monte_carlo_plot.png')
-        MC.plot_simulation_results(num_of_movements, plot_file_path)
-
-        return render_template('monte_carlo_result.html', call_option_price=call_option_price, put_option_price=put_option_price, plot_url=plot_file_path)
+        return render_template('monte_carlo_result.html', 
+                               call_option_price=call_option_price, 
+                               put_option_price=put_option_price, 
+                               simulation_plot_url=simulation_plot_file_path,
+                               historical_plot_url=historical_plot_file_path)
 
     return render_template('monte_carlo_form.html')
-
-
 
 
 @app.route('/binomial', methods=['GET', 'POST'])

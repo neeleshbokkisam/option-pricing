@@ -66,24 +66,27 @@ class Ticker:
         return data[column_name].iloc[-1]
 
     @staticmethod
-    def plot_data(data, ticker, column_name):
+    def plot_data(data, ticker, column_name, save_path):
         """
-        Plots specified column values from dataframe.
-        
+        Plots specified column values from dataframe and saves the plot to the specified path.
+
         Params:
         data: dataframe representing fetched data
         column_name: name of the column in dataframe
+        save_path: path where the plot image will be saved
         """
         try:
-            if data is None or column_name not in data.columns:
-                print(f"Cannot plot data: Data or column {column_name} is invalid.")
+            if data is None:
                 return
+            plt.figure(figsize=(10, 6))
             data[column_name].plot()
             plt.ylabel(f'{column_name}')
             plt.xlabel('Date')
             plt.title(f'Historical data for {ticker} - {column_name}')
             plt.legend(loc='best')
-            plt.show()
+            plt.savefig(save_path)  # Save the plot instead of showing it
+            plt.close()  # Close the plot to free up memory
         except Exception as e:
-            print(f"Error plotting data: {e}")
+            print(e)
             return
+

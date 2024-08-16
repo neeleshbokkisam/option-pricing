@@ -82,15 +82,37 @@ class MonteCarloPricing(OptionPricingModel):
         return np.exp(-self.r * self.T) * 1 / self.N * np.sum(np.maximum(self.K - self.simulation_results_S[-1], 0))
        
 
-    def plot_simulation_results(self, num_of_movements, save_path):
-        """Plots specified number of simulated price movements."""
-        plt.figure(figsize=(12,8))
-        plt.plot(self.simulation_results_S[:,0:num_of_movements])
+    def plot_simulation_results(self, num_of_movements, simulation_save_path, historical_data_save_path, historical_data=None, ticker=None):
+        """
+        Plots specified number of simulated price movements and saves them separately from historical data.
+
+        Params:
+        num_of_movements: Number of simulated price movements to plot
+        simulation_save_path: Path where the simulation plot image will be saved
+        historical_data_save_path: Path where the historical data plot image will be saved
+        historical_data: Historical data to be plotted (optional)
+        ticker: Ticker symbol to include in the plot title (optional)
+        """
+        # Plot the simulated price movements
+        plt.figure(figsize=(12, 8))
+        plt.plot(self.simulation_results_S[:, 0:num_of_movements])
         plt.axhline(self.K, c='k', xmin=0, xmax=self.num_of_steps, label='Strike Price')
         plt.xlim([0, self.num_of_steps])
         plt.ylabel('Simulated price movements')
         plt.xlabel('Days in future')
         plt.title(f'First {num_of_movements}/{self.N} Random Price Movements')
         plt.legend(loc='best')
-        plt.savefig(save_path)
-        plt.close()  # Close the figure after saving to avoid displaying it directly
+        plt.savefig(simulation_save_path)
+        plt.close()
+
+        # Plot the historical data separately if provided
+        if historical_data is not None and ticker is not None:
+            plt.figure(figsize=(12, 8))
+            historical_data['Adj Close'].plot(label=f'{ticker} Historical Data', color='blue')
+            plt.ylabel('Price')
+            plt.xlabel('Date')
+            plt.title(f'Historical Data for {ticker}')
+            plt.legend(loc='best')
+            plt.savefig(historical_data_save_path)
+            plt.close()
+

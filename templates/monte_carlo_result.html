@@ -12,7 +12,13 @@
         <li>Call Option Price: {{ call_option_price }}</li>
         <li>Put Option Price: {{ put_option_price }}</li>
     </ul>
-    <img src="{{ url_for('static', filename='monte_carlo_plot.png') }}" alt="Monte Carlo Simulation Plot">
+    
+    <h2>Monte Carlo Simulation Plot</h2>
+    <img src="{{ url_for('static', filename='monte_carlo_simulation_plot.png') }}" alt="Monte Carlo Simulation Plot">
+
+    <h2>Historical Data Plot</h2>
+    <img src="{{ url_for('static', filename='monte_carlo_historical_plot.png') }}" alt="Historical Data Plot">
+
     <br>
     <a href="{{ url_for('monte_carlo') }}">Go Back</a>
 </body>

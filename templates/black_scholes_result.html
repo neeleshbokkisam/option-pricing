@@ -12,7 +12,7 @@
         <li>Call Option Price: {{ call_option_price }}</li>
         <li>Put Option Price: {{ put_option_price }}</li>
     </ul>
-
+    <img src="{{ url_for('static', filename='historical_data_plot.png') }}" alt="Historical Data Plot">
     <br>
     <a href="{{ url_for('black_scholes') }}">Go Back</a>
 </body>
