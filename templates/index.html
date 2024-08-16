@@ -3,17 +3,83 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Option Pricing Models</title>
+    <title>OptionXplore - Your Interactive Option Pricing Hub</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #f0f4f8;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h1 {
+            font-size: 2.5em;
+            margin-bottom: 0.5em;
+            color: #333;
+        }
+
+        p {
+            font-size: 1.2em;
+            color: #666;
+            margin-bottom: 2em;
+        }
+
+        .model-button {
+            display: inline-block;
+            margin: 15px;
+            padding: 15px 30px;
+            font-size: 1.2em;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            transition: background-color 0.3s ease;
+        }
+
+        .model-button:hover {
+            opacity: 0.9;
+        }
+
+        .black-scholes {
+            background-color: #1abc9c;
+        }
+
+        .monte-carlo {
+            background-color: #3498db;
+        }
+
+        .binomial-tree {
+            background-color: #e74c3c;
+        }
+
+        .description {
+            font-size: 1em;
+            color: #777;
+            margin-top: 10px;
+            margin-bottom: 30px;
+        }
+    </style>
 </head>
 <body>
-    <h1>Welcome to the Option Pricing Models App</h1>
-    <p>Select a model to get started:</p>
+    <h1>Welcome to OptionXplore</h1>
+    <p>Your interactive hub for exploring various option pricing models. Dive into the Black-Scholes Model, Monte Carlo Simulations, and the Binomial Tree Model to gain insights and calculate option prices.</p>
     
     <!-- Links to different model routes -->
-    <ul>
-        <li><a href="/black_scholes">Black-Scholes Model</a></li>
-        <li><a href="/monte_carlo">Monte Carlo Simulation</a></li>
-        <li><a href="/binomial_tree">Binomial Tree Model</a></li>
-    </ul>
+    <div>
+        <a href="/black_scholes" class="model-button black-scholes">
+            Black-Scholes Model
+        </a>
+        <div class="description">Calculate European call and put options using the Black-Scholes formula.</div>
+        
+        <a href="/monte_carlo" class="model-button monte-carlo">
+            Monte Carlo Simulation
+        </a>
+        <div class="description">Simulate price paths and estimate option prices using Monte Carlo methods.</div>
+        
+        <a href="/binomial_tree" class="model-button binomial-tree">
+            Binomial Tree Model
+        </a>
+        <div class="description">Use the binomial tree approach to price American and European options.</div>
+    </div>
 </body>
 </html>
