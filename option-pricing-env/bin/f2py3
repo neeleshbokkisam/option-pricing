@@ -1,4 +1,4 @@
-#!/Users/saineelesh/Desktop/Projects/option-pricing/option-pricing-env/bin/python3.10
+#!/Users/saineelesh/Desktop/Projects/option-pricing/option-pricing-env/bin/python3
 # -*- coding: utf-8 -*-
 import re
 import sys
