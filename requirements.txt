@@ -23,14 +23,13 @@ Jinja2==3.1.4
 jsonschema==4.23.0
 jsonschema-specifications==2023.12.1
 kiwisolver==1.4.4
-lxml==4.9.2
 markdown-it-py==3.0.0
 MarkupSafe==2.1.5
 matplotlib==3.5.3
 mdurl==0.1.2
 multitasking==0.0.11
 narwhals==1.4.0
-numpy==1.23.5
+numpy==1.26.0
 packaging==23.2
 pandas==1.5.3
 pandas-datareader==0.10.0
@@ -51,7 +50,7 @@ requests==2.31.0
 requests-cache==1.2.1
 rich==13.7.1
 rpds-py==0.20.0
-scipy==1.9.3
+scipy==1.14.0
 six==1.16.0
 smmap==5.0.1
 soupsieve==2.6

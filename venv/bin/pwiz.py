@@ -1,4 +1,4 @@
-#!/Users/saineelesh/Desktop/Projects/option-pricing/venv/bin/python3
+#!/Users/saineelesh/Desktop/Projects/option-pricing/venv/bin/python3.12
 
 import datetime
 import os
